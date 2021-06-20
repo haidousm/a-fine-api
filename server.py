@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import pyparsing
-import os
 
 from utils.Model import Model
 from datetime import timedelta
@@ -59,14 +58,13 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
     return decorator
 
 
+model = None
 app = Flask(__name__)
 
 
 def load_model():
-    return Model.load(os.path.abspath('trained_models/mnist_digits_conv_v3_gzipped.model'))
-
-
-model = load_model()
+    global model
+    model = Model.load('/Users/moussa/Desktop/Development/python/fine-flask-api/trained_models/mnist_digits_conv_v3_gzipped.model')
 
 
 @app.route('/')
@@ -77,6 +75,7 @@ def home_endpoint():
 @app.route('/predict', methods=['POST', 'GET'])
 @crossdomain(origin='*')
 def get_prediction():
+    global model
     if request.method == 'POST':
         image_data = request.get_json(force=True)
         image_data = np.array(image_data).astype(np.float32) / 255
@@ -100,3 +99,8 @@ def get_prediction():
         return response
     else:
         return "nothing to GET here, ahahaha GET it? ok."
+
+
+if __name__ == "__main__":
+    load_model()
+    app.run()

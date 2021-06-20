@@ -3,7 +3,6 @@ import time
 
 import numpy as np
 import pickle, copy
-import matplotlib.pyplot as plt
 
 from layers.Layer_Input import Layer_Input
 
@@ -128,7 +127,7 @@ class Model:
                   f'loss: {epoch_loss:.3f} (' +
                   f'data_loss: {epoch_data_loss:.3f}, ' +
                   f'reg_loss: {epoch_regularization_loss:.3f}), ' +
-                  f'lr: {self.optimizer.current_learning_rate}' )
+                  f'lr: {self.optimizer.current_learning_rate}')
 
             if validation_data is not None:
                 self.evaluate(*validation_data, batch_size=batch_size)
