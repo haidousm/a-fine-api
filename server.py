@@ -1,22 +1,19 @@
 import cv2
 import numpy as np
 import pyparsing
-
-import matplotlib.pyplot as plt
+import os
 
 from utils.Model import Model
 from datetime import timedelta
-from flask import Flask, make_response, request, current_app
+from flask import Flask, make_response, request, current_app, jsonify
 from functools import update_wrapper
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
                 attach_to_all=True, automatic_options=True):
-    
     if methods is not None:
         methods = ', '.join(sorted(x.upper() for x in methods))
 
-   
     if not isinstance(origin, pyparsing.basestring):
         origin = ', '.join(origin)
     if isinstance(max_age, timedelta):
@@ -62,25 +59,24 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
     return decorator
 
 
-model = None
 app = Flask(__name__)
 
 
 def load_model():
-    global model
-    model = Model.load("/home/haidousm/mysite/trained_models/mnist_digits_conv_v3_gzipped.model")
+    return Model.load(os.path.abspath('trained_models/mnist_digits_conv_v3_gzipped.model'))
 
-load_model()
+
+model = load_model()
+
 
 @app.route('/')
 def home_endpoint():
-    return 'Hello World!'
+    return 'hey cutie ;)'
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST', 'GET'])
 @crossdomain(origin='*')
 def get_prediction():
-
     if request.method == 'POST':
         image_data = request.get_json(force=True)
         image_data = np.array(image_data).astype(np.float32) / 255
@@ -90,12 +86,17 @@ def get_prediction():
 
         confidences = model.predict(image_data)
         prediction = model.output_layer_activation.predictions(confidences)
-        res = ""
-        res += str(prediction[0])
-        _confidences = confidences.tolist()[0]
-        for i in range(len(_confidences)):
-            if np.isnan([_confidences[i]])[0]:
-                _confidences[i] = -1
-            res += "," + str(_confidences[i])
 
-    return res
+        prediction = int(prediction[0])
+        confidence = confidences[0].tolist()
+        response = make_response(
+            jsonify(
+                {"prediction": prediction, "confidence": confidence}
+            ),
+            200,
+        )
+        response.headers["Content-Type"] = "application/json"
+
+        return response
+    else:
+        return "nothing to GET here, ahahaha GET it? ok."
