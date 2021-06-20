@@ -64,7 +64,7 @@ app = Flask(__name__)
 
 def load_model():
     global model
-    model = Model.load('/Users/moussa/Desktop/Development/python/fine-flask-api/trained_models/mnist_digits_conv_v3_gzipped.model')
+    model = Model.load('')
 
 
 @app.route('/')
