@@ -12,14 +12,11 @@ from functools import update_wrapper
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
                 attach_to_all=True, automatic_options=True):
-    """Decorator function that allows crossdomain requests.
-      Courtesy of
-      https://blog.skyred.fi/articles/better-crossdomain-snippet-for-flask.html
-    """
+    
     if methods is not None:
         methods = ', '.join(sorted(x.upper() for x in methods))
 
-    # use str instead of basestring if using Python 3.x
+   
     if not isinstance(origin, pyparsing.basestring):
         origin = ', '.join(origin)
     if isinstance(max_age, timedelta):
@@ -102,6 +99,3 @@ def get_prediction():
             res += "," + str(_confidences[i])
 
     return res
-
-
-
