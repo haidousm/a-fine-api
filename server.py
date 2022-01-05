@@ -104,3 +104,4 @@ def get_prediction():
 if __name__ == "__main__":
     load_model()
     app.run()
+
