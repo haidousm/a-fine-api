@@ -2,6 +2,8 @@ from datetime import timedelta
 from flask import make_response, request, current_app
 from functools import update_wrapper
 import pyparsing
+import numpy as np
+import cv2
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
@@ -52,3 +54,15 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
         return update_wrapper(wrapped_function, f)
 
     return decorator
+
+
+def load_model(model_path):
+    from fine.models import Sequential
+    return Sequential().load(model_path)
+
+
+def resize_image(image_data):
+    image_data = np.array(image_data).astype(np.float32) / 255
+    image_data = cv2.resize(image_data, dsize=(28, 28))
+    image_data = np.expand_dims(image_data, axis=0)
+    return np.expand_dims(image_data, axis=0)

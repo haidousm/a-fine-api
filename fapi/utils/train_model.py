@@ -47,7 +47,8 @@ if __name__ == "__main__":
         accuracy=Categorical()
     )
 
-    model.train(X_train, y_train, epochs=5, batch_size=120, print_every=100)
+    model.finalize()
+    model.train(X_train, y_train, epochs=1, batch_size=120, print_every=100)
     model.evaluate(X_test, y_test, batch_size=120)
 
     # get abs path to save model
