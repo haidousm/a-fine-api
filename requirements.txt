@@ -1,3 +1,5 @@
-flask
-opencv-python
-deep-fine
+flask~=2.0.2
+opencv-python~=4.5.5.62
+deep-fine~=0.0.5
+pyparsing~=2.4.7
+numpy~=1.22.0
