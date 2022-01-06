@@ -55,7 +55,6 @@ if __name__ == "__main__":
         path.join(path.dirname(__file__), "..", "..", "models",
                   "mnist_conv_16_32_dense_1568_64_64_10_softmax.model"))
 
-    # if save path dirs don't exist, create them
     if not path.exists(path.dirname(save_path)):
         makedirs(path.dirname(save_path))
 
