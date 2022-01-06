@@ -5,3 +5,4 @@ numpy~=1.22.0
 tqdm~=4.36.1
 cython~=0.29.14
 deep-fine~=0.1.0
+gunicorn~=20.1.0
