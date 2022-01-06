@@ -15,7 +15,7 @@ from fine.models.model_utils import Categorical
 
 from fine.optimizers import Adam
 
-from os import path
+from os import path, makedirs
 
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = load_mnist_augmented()
@@ -54,4 +54,9 @@ if __name__ == "__main__":
     save_path = path.abspath(
         path.join(path.dirname(__file__), "..", "..", "models",
                   "mnist_conv_16_32_dense_1568_64_64_10_softmax.model"))
+
+    # if save path dirs don't exist, create them
+    if not path.exists(path.dirname(save_path)):
+        makedirs(path.dirname(save_path))
+
     model.save(save_path)
