@@ -1,4 +1,4 @@
-from fine.datasets import load_mnist
+from fine.datasets import load_mnist_augmented
 from fine.models import Sequential
 
 from fine.layers import Conv2D
@@ -18,7 +18,7 @@ from fine.optimizers import Adam
 from os import path
 
 if __name__ == "__main__":
-    X_train, y_train, X_test, y_test = load_mnist()
+    X_train, y_train, X_test, y_test = load_mnist_augmented()
 
     model = Sequential(
         layers=[
@@ -48,10 +48,10 @@ if __name__ == "__main__":
     )
 
     model.finalize()
-    model.train(X_train, y_train, epochs=1, batch_size=120, print_every=100)
+    model.train(X_train, y_train, epochs=5, batch_size=120, print_every=100)
     model.evaluate(X_test, y_test, batch_size=120)
 
-    # get abs path to save model
     save_path = path.abspath(
-        path.join(path.dirname(__file__), "..", "..", "models", "mnist_model_16_16_32_32_1568_64_64.model"))
+        path.join(path.dirname(__file__), "..", "..", "models",
+                  "mnist_conv_16_32_dense_1568_64_64_10_softmax.model"))
     model.save(save_path)
