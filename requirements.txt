@@ -1,7 +1,6 @@
 flask~=2.0.2
-opencv-python~=4.5.5.62
+opencv-python-headless~=4.5.5.62
 pyparsing~=2.4.7
 numpy~=1.22.0
-tqdm~=4.36.1
-cython~=0.29.14
 deep-fine~=0.1.0
+gunicorn~=20.1.0
