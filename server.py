@@ -38,7 +38,7 @@ def get_prediction():
 
 if __name__ == "__main__":
     model_path = path.abspath(
-        path.join(path.dirname(__file__), "models", "mnist_model_16_16_32_32_1568_64_64.model.gz"))
+        path.join(path.dirname(__file__), "models", "mnist_conv_16_32_dense_1568_64_64_10_softmax.model.gz"))
     model = load_model(model_path)
     model.finalize()
     if not model:
