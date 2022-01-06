@@ -18,13 +18,13 @@ def _load_model():
         exit(1)
 
 
-@app.route('/')
+@app.route('/api')
 @crossdomain(origin='*')
 def home_endpoint():
     return 'hey cutie ;)'
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST'])
 @crossdomain(origin='*')
 def get_prediction():
     global model
