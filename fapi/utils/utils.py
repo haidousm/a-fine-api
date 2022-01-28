@@ -66,3 +66,11 @@ def resize_image(image_data):
     image_data = cv2.resize(image_data, dsize=(28, 28))
     image_data = np.expand_dims(image_data, axis=0)
     return np.expand_dims(image_data, axis=0)
+
+def base64_to_2D(base64_str):
+    import base64
+    img_data = base64.b64decode(base64_str)
+    img_data = np.frombuffer(img_data, dtype=np.uint8)
+    img = cv2.imdecode(img_data, cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    return img
