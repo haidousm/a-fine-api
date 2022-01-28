@@ -24,12 +24,27 @@ def home_endpoint():
     return 'hey cutie ;)'
 
 
-@app.route('/api/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST', 'OPTIONS'])
 @crossdomain(origin='*')
 def get_prediction():
     global model
+
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'})
+
     if request.method == 'POST':
-        image_data = request.get_json(force=True)
+
+        req_body = request.get_json(force=True)
+
+        if not req_body:
+            return jsonify({'error': 'No input data provided'}), 400
+
+        image_data = None
+        if req_body["type"] == "raw":
+            image_data = req_body["data"]
+        elif req_body["type"] == "base64":
+            image_data = base64_to_2D(req_body["data"])
+
         image_data = resize_image(image_data)
 
         confidences = model.predict(image_data)
